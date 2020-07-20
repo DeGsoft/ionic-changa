@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Account</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <div *ngIf="username" class="ion-padding-top ion-text-center">
+    <img src="https://www.gravatar.com/avatar?d=mm&s=140" alt="avatar">
+    <h2>{{username}}</h2> -->
+  <!-- <div>
+    <div class="grd">
+      <div class="grd-row">
+        <div class="grd-row-col-2">    
+              <form (ngSubmit)="newUser(newUserForm.value)" [formGroup]="newUserForm"> 
+              <input type="hidden" formControlName="id">    
+              <label for="username">Name</label>
+              <input type="text" formControlName="username">    
+              <label for="password">Password</label>
+              <input type="text" formControlName="password">    
+              <input type="submit" class="btn--blue btn--add" [disabled]="!newUserForm.valid" [value]="(currentStatus == 1) ? 'Add' : 'Edit'">
+            </form>
+        </div>
+        <div class="grd-row-col-4">
+          <div class="users_container">
+            <div class="media" *ngFor="let user of users">
+               <div class="media-figure">
+                <img [src]="user.data.picture">
+              </div> 
+              <div class="media-body">
+                <p>{{user.data.username}}</p>
+                <p>{{user.data.password}}</p>
+                <div class="btn--group">
+                  <button class="btn--green btn--s btn1" (click)="editUser(user.id)">Edit</button>
+                  <button class="btn--red btn--s btn2" (click)="deleteUser(user.id)">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>-->
+    <form #userForm="ngForm" novalidate>
+      <ion-list lines="none">
+        <ion-item>
+          <ion-label position="stacked" color="primary">Username</ion-label>
+          <ion-input [(ngModel)]="user.username" name="username" type="text" #username="ngModel" required>
+          </ion-input>
+        </ion-item>
+        <ion-text color="danger">
+          <p [hidden]="username.valid || submitted == false" class="ion-padding-start">
+            Username is required
+          </p>
+        </ion-text>
+  
+        <ion-item>
+          <ion-label position="stacked" color="primary">Password</ion-label>
+          <ion-input [(ngModel)]="user.password" name="password" type="password" #password="ngModel" required>
+          </ion-input>
+        </ion-item>
+        <ion-text color="danger">
+          <p [hidden]="password.valid || submitted == false" class="ion-padding-start">
+            Password is required
+          </p>
+        </ion-text>
+      </ion-list>
+  
+      <div class="ion-padding">
+        <ion-button (click)="onSignup(userForm)" type="submit" expand="block">Create</ion-button>
+      </div>
+    </form>
+
+    <ion-list inset>
+      <!-- <ion-item (click)="updatePicture()">Update Picture</ion-item>
+      <ion-item (click)="changeUsername()">Change Username</ion-item>
+      <ion-item (click)="changePassword()">Change Password</ion-item> -->
+      <ion-item (click)="support()">Support</ion-item>
+      <!-- <ion-item (click)="logout()">Logout</ion-item> -->
+    </ion-list>
+
+</ion-content>
