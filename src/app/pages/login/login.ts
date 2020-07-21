@@ -6,6 +6,8 @@ import { UserData } from '../../providers/user-data';
 
 import { UserOptions } from '../../interfaces/user-options';
 
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../model/user.model';
 
 
 @Component({
