@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
-import { SigninPage } from './singin';
+import { SigninPage } from './signin';
 import { SigninPageRoutingModule } from './signin-routing.module';
 
 @NgModule({
