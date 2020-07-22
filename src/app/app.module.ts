@@ -20,7 +20,7 @@ import { environment } from '../environments/environment';
 
 import { FirestoreService } from './services/firestore.service';
 import { AuthService } from './services/auth.service';
-
+import { AuthGuard } from './services/auth.guard';
 @NgModule({
   imports: [
     BrowserModule,
@@ -41,6 +41,7 @@ import { AuthService } from './services/auth.service';
     ,AngularFirestore,
     FirestoreService,
     AuthService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

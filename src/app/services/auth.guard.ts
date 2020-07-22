@@ -25,8 +25,12 @@ export class AuthGuard implements CanLoad {
     private auth: AuthService,
     private router: Router ) {}
 
-  canLoad(route: Route, segments: UrlSegment[]): Observable<boolean>|Promise<boolean>|boolean {
-    //return this.permissions.canLoadChildren(this.currentUser, route, segments);
+  // canLoad(route: Route, segments: UrlSegment[]): Observable<boolean>|Promise<boolean>|boolean {
+  //   return this.permissions.canLoadChildren(this.currentUser, route, segments);  
+  // }
+  canLoad(route: Route): boolean {    
+    let url: string = route.path;
+    console.log('Url:'+ url);
     if(!this.auth.LoginStatus) {
         this.router.navigate(['signin']);
       }
