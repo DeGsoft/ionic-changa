@@ -13,6 +13,8 @@
     <img src="assets/img/appicon.svg" alt="Ionic logo">
   </div>
 
+  <span *ngIf="error" (click)="removeError()">{{ error }}</span>
+  
   <form #loginForm="ngForm" novalidate>
     <ion-list>
       <ion-item>

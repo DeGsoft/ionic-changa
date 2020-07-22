@@ -19,14 +19,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/support/support.module').then(m => m.SupportModule)
     , canLoad: [AuthGuard]
   },
-  // {
-  //   path: 'login',
-  //   loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)
-  // },
   {
-    path: 'signin',
-    loadChildren: () => import('./pages/signin/signin.module').then(m => m.SigninModule)
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)
   },
+  // {
+  //   path: 'signin',
+  //   loadChildren: () => import('./pages/signin/signin.module').then(m => m.SigninModule)
+  // },
   {
     path: 'signup',
     loadChildren: () => import('./pages/signup/signup.module').then(m => m.SignUpModule)

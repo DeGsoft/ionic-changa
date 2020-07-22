@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, CanLoad, ActivatedRouteSnapshot, RouterStateSnapshot, Route, UrlSegment } from '@angular/router';
+import { Router, CanLoad, Route } from '@angular/router';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 
@@ -32,7 +32,7 @@ export class AuthGuard implements CanLoad {
     let url: string = route.path;
     console.log('Url:'+ url);
     if(!this.auth.LoginStatus) {
-        this.router.navigate(['signin']);
+        this.router.navigate(['login']);
       }
       return this.auth.LoginStatus;
   }

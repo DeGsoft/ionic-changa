@@ -36,15 +36,12 @@ export class SigninPage implements OnInit {
     this.submitted = true;
 
     if (form.valid) {
-      this.authService.signInUser(
-        //this.form.value.email
-        this.login.username,
-        //this.form.value.password
+      this.authService.signInUser(        
+        this.login.username,        
         this.login.password)
       .then((user) => {
         console.log(user.user);
-        this.authService.setLoginStatus(true);
-        //this.router.navigateByUrl('home');
+        this.authService.setLoginStatus(true);        
         this.router.navigateByUrl('/app/tabs/schedule');
       })
       .catch( err => this.error = err.message );

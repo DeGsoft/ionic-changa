@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { UserOptions } from '../interfaces/user-options';
-import { AuthenticateService } from '../services/authentication.service';
 import { Observable } from 'rxjs';
+import { UserOptions } from '../interfaces/user-options';
+import { AuthService } from '../services/auth.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,9 @@ export class UserData {
 
   constructor(
     public storage: Storage,
-    private authService: AuthenticateService,
+    private authService: AuthService,
     private db: AngularFirestore
+    
   ) { }
 
   hasFavorite(sessionName: string): boolean {
@@ -49,39 +51,21 @@ export class UserData {
   //     return window.dispatchEvent(new CustomEvent('user:login'));
   //   });
   // }
-  login(value): Promise<any> {
-    console.log("l53");
-    return this.authService.loginUser(value)
+  login(value): Promise<any> {        
+    return this.authService.signInUser(        
+        value.username,        
+        value.password)      
       .then(res => {
         console.log(res);
         this.errorMessage = "";
+        this.authService.setLoginStatus(true);        
         return window.dispatchEvent(new CustomEvent('user:login'));
       }, err => {
         console.log(err.message);
         this.errorMessage = err.message;
         return this.errorMessage;
-      })            
+      });
   }
-
-  // fsLogin(username: string) {        
-  //   this.fsGetUser(username).subscribe((usersSnapshot) => {
-  //     this.users = [];
-  //     usersSnapshot.forEach((usersData: any) => {
-  //       this.users.push({
-  //         id: usersData.payload.doc.id,          
-  //         data: usersData.payload.doc.data()               
-  //       });
-  //     });
-  //   });    
-  // }
-  
-  // public getUser(documentId: string) {
-  //   return this.firestore.collection('users').doc(documentId).snapshotChanges();
-  // }
-
-  // fsGetUser(username:string){
-  //   return this.firestore.collection('/users', ref => ref.where('username', '==', username)).snapshotChanges();
-  // }
 
   // signup(username: string): Promise<any> {
   //   return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {

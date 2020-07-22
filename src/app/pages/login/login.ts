@@ -16,21 +16,35 @@ import { User } from '../../model/user.model';
   styleUrls: ['./login.scss'],
 })
 export class LoginPage {
+
+  //@ViewChild('f') form: NgForm;  
+  error: string;
+
   login: UserOptions = { id: '', username: '', password: '' };
   submitted = false;
 
   constructor(
-    public userData: UserData,
-    public router: Router
-  ) { }
+    //public userData: UserData,
+    private authService: AuthService,
+    private router: Router
+   ) { 
+    this.error = null;
+  }
 
   onLogin(form: NgForm) {
     this.submitted = true;
 
     if (form.valid) {
-      //this.userData.login(this.login.username);
-      this.userData.login(this.login);
-      this.router.navigateByUrl('/app/tabs/schedule');
+      this.authService.signInUser(        
+        this.login.username,        
+        this.login.password)
+      .then((user) => {
+        //console.log(user.user);
+        this.authService.setLoginStatus(true);        
+        this.router.navigateByUrl('/app/tabs/schedule');
+      })
+      .catch( err => this.error = err.message );
+    form.reset();
     }
   }
 
