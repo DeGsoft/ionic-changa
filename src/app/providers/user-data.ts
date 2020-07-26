@@ -78,13 +78,19 @@ export class UserData {
   //     return window.dispatchEvent(new CustomEvent('user:signup'));
   //   });
   // }
-  signup(value) {
-    this.authService.registerUser(value)
+  signup(value): Promise<any> {
+    return this.authService.signUpUser(value.username,        
+        value.password)
       .then(res => {
         console.log(res);
         this.errorMessage = "";
         this.successMessage = "Your account has been created. Please log in.";
-        return window.dispatchEvent(new CustomEvent('user:signup'));
+        //?
+        return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
+          this.setUsername(value.username);
+          return window.dispatchEvent(new CustomEvent('user:signup'));
+        });
+        //
       }, err => {
         console.log(err);
         this.successMessage = "";
@@ -100,12 +106,13 @@ export class UserData {
   //   });
   // }
   logout(): Promise<any> {
-    return this.authService.logoutUser().then(() => {           
+    return this.authService.signOutUser().then(() => {    
+      //?       
       return this.storage.remove(this.HAS_LOGGED_IN).then(() => {
         return this.storage.remove('username');
       }).then(() => {
         window.dispatchEvent(new CustomEvent('user:logout'));
-      });
+      });  
     });
   }  
 

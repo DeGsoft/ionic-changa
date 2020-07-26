@@ -38,6 +38,19 @@ export class AuthService {
     });    
   }     
 
+  signOutUser() {
+    //return firebase.auth().signInWithEmailAndPassword(email, password);
+    return firebase.auth().signOut().then(function() {
+      // Sign-out successful.
+      }).catch(function(error) {
+      //  An error happened.
+      var errorCode = error.code;
+      console.log(errorCode);
+      var errorMessage = error.message;
+      return errorMessage;
+    });    
+  }     
+
     /**
      * initApp handles setting up UI event listeners and registering Firebase auth listeners:
      *  - firebase.auth().onAuthStateChanged: This listener is called when the user is signed in or
@@ -65,7 +78,7 @@ export class AuthService {
           //   document.getElementById('quickstart-verify-email').disabled = false;
           // }
           // [END_EXCLUDE]
-          return user
+          return user;
         } else {
           // User is signed out.
           // [START_EXCLUDE]
