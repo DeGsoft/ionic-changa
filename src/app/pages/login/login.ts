@@ -24,7 +24,7 @@ export class LoginPage {
   submitted = false;
 
   constructor(
-    //public userData: UserData,
+    public userData: UserData,
     private authService: AuthService,
     private router: Router
    ) { 
@@ -35,16 +35,8 @@ export class LoginPage {
     this.submitted = true;
 
     if (form.valid) {
-      this.authService.signInUser(        
-        this.login.username,        
-        this.login.password)
-      .then((user) => {
-        //console.log(user.user);
-        this.authService.setLoginStatus(true);        
-        this.router.navigateByUrl('/app/tabs/schedule');
-      })
-      .catch( err => this.error = err.message );
-    form.reset();
+      this.userData.login(this.login);                
+      this.router.navigateByUrl('/app/tabs/schedule');
     }
   }
 

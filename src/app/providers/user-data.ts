@@ -113,6 +113,7 @@ export class UserData {
       }).then(() => {
         window.dispatchEvent(new CustomEvent('user:logout'));
       });  
+      //
     });
   }  
 
@@ -120,13 +121,14 @@ export class UserData {
     return this.storage.set('username', username);
   }
 
-  // getUsername(): Promise<string> {
-  //   return this.storage.get('username').then((value) => {
-  //     return value;
-  //   });
-  // }
-  getUser(): Observable<any> {
-    return this.authService.userDetails();
+  getUsername(): Promise<string> {
+    return this.storage.get('username').then((value) => {
+      return value;
+    });
+  }
+
+  getUser(){//: Observable<any> {
+    return this.authService.detailUser();
   }
 
   isLoggedIn(): Promise<boolean> {
@@ -140,24 +142,5 @@ export class UserData {
       return value;
     });
   }
-
-  // ngOnInit() {
-  //   // this.newUserForm.setValue({
-  //   //   id: '',
-  //   //   nombre: '',
-  //   //   url: ''
-  //   // });
-    
-    
-  //   (usersSnapshot) => {
-  //     this.users = [];
-  //     usersSnapshot.forEach((usersData: any) => {
-  //       this.users.push({
-  //         id: usersData.payload.doc.id,
-  //         data: usersData.payload.doc.data()
-  //       });
-  //     });
-  //   });
-  // }
 
 }

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import * as firebase from 'firebase';
 import { User } from '../model/user.model';
 
@@ -7,6 +8,7 @@ import { User } from '../model/user.model';
 export class AuthService {
 
   private loggedInStatus = JSON.parse(localStorage.getItem('loggedIn') || 'false')
+  private user: User;
 
   setLoginStatus(value: boolean) {
     this.loggedInStatus = value;
@@ -51,6 +53,18 @@ export class AuthService {
     });    
   }     
 
+  detailUser() {
+    var user = firebase.auth().currentUser
+    this.user.displayName = user.displayName;
+    this.user.email = user.email;
+    this.user.emailVerified = user.emailVerified.toString();
+    this.user.photoURL = user.photoURL;
+    this.user.isAnonymous = user.isAnonymous;
+    this.user.uid = user.uid;
+    this.user.providerData = user.providerData.toString();
+    return this.user;
+  }
+
     /**
      * initApp handles setting up UI event listeners and registering Firebase auth listeners:
      *  - firebase.auth().onAuthStateChanged: This listener is called when the user is signed in or
@@ -65,20 +79,19 @@ export class AuthService {
         // [END_EXCLUDE]
         if (user) {
           // User is signed in.
-          // this.user.displayName = user.displayName;
-          // this.user.email = user.email;
-          // this.user.emailVerified = user.emailVerified;
-          // this.user.photoURL = user.photoURL;
-          // this.user.isAnonymous = user.isAnonymous;
-          // this.user.uid = user.uid;
-          // this.user.providerData = user.providerData;
+          // usr.displayName = user.displayName;
+          // usr.email = user.email;
+          // usr.emailVerified = user.emailVerified.toString();
+          // usr.photoURL = user.photoURL;
+          // usr.isAnonymous = user.isAnonymous;
+          // usr.uid = user.uid;
+          // usr.providerData = user.providerData.toString();
           // [START_EXCLUDE]
           //
           // if (!emailVerified) {
           //   document.getElementById('quickstart-verify-email').disabled = false;
           // }
           // [END_EXCLUDE]
-          return user;
         } else {
           // User is signed out.
           // [START_EXCLUDE]
@@ -86,12 +99,14 @@ export class AuthService {
           // document.getElementById('quickstart-sign-in').textContent = 'Sign in';
           // document.getElementById('quickstart-account-details').textContent = 'null';
           // [END_EXCLUDE]
+          
         }
         // [START_EXCLUDE silent]
         // document.getElementById('quickstart-sign-in').disabled = false;
         // [END_EXCLUDE]
       });
       // [END authstatelistener]
+      return this.detailUser();
 
       // document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
       // document.getElementById('quickstart-sign-up').addEventListener('click', handleSignUp, false);
