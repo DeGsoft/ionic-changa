@@ -47,7 +47,7 @@ export class AuthService {
      *  - firebase.auth().onAuthStateChanged: This listener is called when the user is signed in or
      *    out, and that is where we update the UI.
      */
-    oUser() {
+    stateUser() {
       // Listening for auth state changes.
       // [START authstatelistener]
       firebase.auth().onAuthStateChanged(function(user) {
@@ -69,6 +69,7 @@ export class AuthService {
           //   document.getElementById('quickstart-verify-email').disabled = false;
           // }
           // [END_EXCLUDE]
+          
         } else {
           // User is signed out.
           // [START_EXCLUDE]
