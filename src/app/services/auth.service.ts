@@ -8,10 +8,6 @@ export class AuthService {
 
   private loggedInStatus = JSON.parse(localStorage.getItem('loggedIn') || 'false')
 
-  constructor(
-    public user: User    
-  ) { }
-
   setLoginStatus(value: boolean) {
     this.loggedInStatus = value;
     localStorage.setItem('loggedIn', 'true');
@@ -56,20 +52,20 @@ export class AuthService {
         // [END_EXCLUDE]
         if (user) {
           // User is signed in.
-          this.user.displayName = user.displayName;
-          this.user.email = user.email;
-          this.user.emailVerified = user.emailVerified;
-          this.user.photoURL = user.photoURL;
-          this.user.isAnonymous = user.isAnonymous;
-          this.user.uid = user.uid;
-          this.user.providerData = user.providerData;
+          // this.user.displayName = user.displayName;
+          // this.user.email = user.email;
+          // this.user.emailVerified = user.emailVerified;
+          // this.user.photoURL = user.photoURL;
+          // this.user.isAnonymous = user.isAnonymous;
+          // this.user.uid = user.uid;
+          // this.user.providerData = user.providerData;
           // [START_EXCLUDE]
           //
           // if (!emailVerified) {
           //   document.getElementById('quickstart-verify-email').disabled = false;
           // }
           // [END_EXCLUDE]
-          
+          return user
         } else {
           // User is signed out.
           // [START_EXCLUDE]
