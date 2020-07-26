@@ -58,8 +58,13 @@ export class UserData {
       .then(res => {
         console.log(res);
         this.errorMessage = "";
-        this.authService.setLoginStatus(true);        
+        this.authService.setLoginStatus(true);  
+        //?   
+        return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
+        this.setUsername(value.username);
         return window.dispatchEvent(new CustomEvent('user:login'));
+        });
+        //
       }, err => {
         console.log(err.message);
         this.errorMessage = err.message;
@@ -96,7 +101,11 @@ export class UserData {
   // }
   logout(): Promise<any> {
     return this.authService.logoutUser().then(() => {           
-      window.dispatchEvent(new CustomEvent('user:logout'));
+      return this.storage.remove(this.HAS_LOGGED_IN).then(() => {
+        return this.storage.remove('username');
+      }).then(() => {
+        window.dispatchEvent(new CustomEvent('user:logout'));
+      });
     });
   }  
 
