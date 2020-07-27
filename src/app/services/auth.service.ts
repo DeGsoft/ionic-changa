@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
+import { AngularFireAuth } from '@angular/fire/auth';
+import * as firebase from 'firebase/app';
 import { User } from '../model/user.model';
 
 @Injectable()
@@ -8,6 +10,8 @@ export class AuthService {
 
   private loggedInStatus = JSON.parse(localStorage.getItem('loggedIn') || 'false')
   private user: User;
+
+  public afAuth: AngularFireAuth;
 
   setLoginStatus(value: boolean) {
     this.loggedInStatus = value;
@@ -19,7 +23,8 @@ export class AuthService {
   }
 
   signUpUser(email: string, password: string) {
-    return firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+    //return firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       console.log(errorCode);
@@ -30,7 +35,8 @@ export class AuthService {
 
   signInUser(email: string, password: string) {
     //return firebase.auth().signInWithEmailAndPassword(email, password);
-    return firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+//    return firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+  return this.afAuth.auth.signInWithEmailAndPassword(email, password).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       console.log(errorCode);
@@ -41,7 +47,8 @@ export class AuthService {
 
   signOutUser() {
     //return firebase.auth().signInWithEmailAndPassword(email, password);
-    return firebase.auth().signOut().then(function() {
+    //return firebase.auth().signOut().then(function() {
+    return this.afAuth.auth.signOut().then(function() {
       // Sign-out successful.
       }).catch(function(error) {
       //  An error happened.
@@ -53,7 +60,8 @@ export class AuthService {
   }     
 
   detailUser() {
-    var user = firebase.auth().currentUser
+    //var user = firebase.auth().currentUser
+    var user = this.afAuth.auth.currentUser;
     this.user.displayName = user.displayName;
     this.user.email = user.email;
     this.user.emailVerified = user.emailVerified.toString();
@@ -72,7 +80,8 @@ export class AuthService {
     stateUser() {
       // Listening for auth state changes.
       // [START authstatelistener]
-      firebase.auth().onAuthStateChanged(function(user) {
+      //firebase.auth().onAuthStateChanged(function(user) {
+      this.afAuth.auth.onAuthStateChanged(function(user) {
         // [START_EXCLUDE silent]
         //document.getElementById('quickstart-verify-email').disabled = true;
         // [END_EXCLUDE]

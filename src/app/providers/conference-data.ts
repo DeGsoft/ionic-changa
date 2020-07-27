@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-//import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { firestore } from 'firebase';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
+//import { firestore } from 'firebase';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -13,44 +13,41 @@ import { UserData } from './user-data';
 export class ConferenceData {
   data: any;
 
-  constructor(public http: HttpClient, public user: UserData,
-    private db: firestore.Firestore) {
-      //db = firestore();
-    }
+  constructor(public http: HttpClient, public user: UserData, private db: AngularFirestore) {}
 
-  // load(): any {
-  //   if (this.data) {
-  //     return of(this.data);
-  //   } else {
-  //     return this.http
-  //       .get('assets/data/data.json')
-  //       .pipe(map(this.processData, this));
-  //   }
-  // }
   load(): any {
     if (this.data) {
       return of(this.data);
     } else {
-      return this.getSchedule()
+      return this.http
+        .get('assets/data/data.json')
         .pipe(map(this.processData, this));
     }
   }
+  // load(): any {
+  //   if (this.data) {
+  //     return of(this.data);
+  //   } else {
+  //     return this.getSchedule()
+  //       .pipe(map(this.processData, this));
+  //   }
+  // }
 
-  getSchedule(){
-    this.db.collection("schedule").snapshotChanges().subscribe((scheduleSnapshot) => {
-      var data = [];
-      scheduleSnapshot.forEach((scheduleData: any) => {
-        data.push(
-          //id: scheduleData.payload.doc.id,          
-          //data: 
-          scheduleData.payload.doc.data()
-          //}
-        );
-      });
-    });      
-    console.log("conference-data-l48: ", this.data); 
-    return this.data; 
-  }
+  // getSchedule(){
+  //   this.db.collection("schedule").snapshotChanges().subscribe((scheduleSnapshot) => {
+  //     var data = [];
+  //     scheduleSnapshot.forEach((scheduleData: any) => {
+  //       data.push(
+  //         //id: scheduleData.payload.doc.id,          
+  //         //data: 
+  //         scheduleData.payload.doc.data()
+  //         //}
+  //       );
+  //     });
+  //   });      
+  //   console.log("conference-data-l48: ", this.data); 
+  //   return this.data; 
+  // }
 
   processData(data: any) {
     // just some good 'ol JS fun with objects and arrays
