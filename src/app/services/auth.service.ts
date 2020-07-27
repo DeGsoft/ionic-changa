@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import * as firebase from 'firebase';
 import { User } from '../model/user.model';
 
-
 @Injectable()
 export class AuthService {
 

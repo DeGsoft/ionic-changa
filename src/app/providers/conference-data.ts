@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
+//import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { firestore } from 'firebase';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -13,47 +14,50 @@ export class ConferenceData {
   data: any;
 
   constructor(public http: HttpClient, public user: UserData,
-    private db: AngularFirestore) {}
+    private db: firestore.Firestore) {
+      //db = firestore();
+    }
 
+  // load(): any {
+  //   if (this.data) {
+  //     return of(this.data);
+  //   } else {
+  //     return this.http
+  //       .get('assets/data/data.json')
+  //       .pipe(map(this.processData, this));
+  //   }
+  // }
   load(): any {
     if (this.data) {
       return of(this.data);
     } else {
-      return this.http
-        .get('assets/data/data.json')
+      return this.getSchedule()
         .pipe(map(this.processData, this));
     }
   }
-  // load(): any {
 
-  //   if (this.data) {
-  //     return of(this.data);
-  //   } else {
-  //     return this.getSchedule().pipe(map(this.processData, this));
-  //   }
-  // }
-
-  // getSchedule(){
-  //   this.db.collection("schedule").snapshotChanges().subscribe((scheduleSnapshot) => {
-  //     var data = [];
-  //     scheduleSnapshot.forEach((scheduleData: any) => {
-  //       data.push(
-  //         //id: scheduleData.payload.doc.id,          
-  //         //data: 
-  //         scheduleData.payload.doc.data()
-  //         //}
-  //       );
-  //     });
-  //   });      
-  //   return this.data; 
-  // }
+  getSchedule(){
+    this.db.collection("schedule").snapshotChanges().subscribe((scheduleSnapshot) => {
+      var data = [];
+      scheduleSnapshot.forEach((scheduleData: any) => {
+        data.push(
+          //id: scheduleData.payload.doc.id,          
+          //data: 
+          scheduleData.payload.doc.data()
+          //}
+        );
+      });
+    });      
+    console.log("conference-data-l48: ", this.data); 
+    return this.data; 
+  }
 
   processData(data: any) {
     // just some good 'ol JS fun with objects and arrays
     // build up the data by linking speakers to sessions
     this.data = data;
 
-    console.log("Document data:", this.data); 
+    console.log("conference-data-l56: ", this.data); 
 
     // loop through each day in the schedule
     this.data.schedule.forEach((day: any) => {

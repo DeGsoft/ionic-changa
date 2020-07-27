@@ -4,9 +4,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { FormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-
+import * as firebase from 'firebase/app';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -21,6 +21,7 @@ import { environment } from '../environments/environment';
 import { FirestoreService } from './services/firestore.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth.guard';
+import { FirebaseApp } from 'angularfire2';
 
 @NgModule({
   imports: [
@@ -38,8 +39,8 @@ import { AuthGuard } from './services/auth.guard';
   ],
   declarations: [AppComponent],
   providers: [
-    InAppBrowser, SplashScreen, StatusBar
-    ,AngularFirestore,
+    InAppBrowser, SplashScreen, StatusBar,
+    AngularFirestore,
     FirestoreService,
     AuthService,
     AuthGuard
